@@ -14,8 +14,12 @@
   "contributes": {
     "commands": [
       {
-        "command": "jgame-manager.helloWorld",
-        "title": "Hello World"
+        "command": "jgame-manager.updateJGame",
+        "title": "JGame Manager: Update Your JGame Package"
+      },
+      {
+        "command": "jgame-manager.init",
+        "title": "JGame Manager: Initialize JGame Package Manager"
       }
     ]
   },
