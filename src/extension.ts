@@ -7,20 +7,41 @@ import 'fs';
 // Your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
 
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "jgame-manager" is now active!');
+	const print = console.log;
+	const window = vscode.window;
 
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with registerCommand
-	// The commandId parameter must match the command field in package.json
-	let disposable = vscode.commands.registerCommand('jgame-manager.updateJGame', () => {
-		// The code you place here will be executed every time your command is executed
-		// Display a message box to the user
+
+	let updateCommand = vscode.commands.registerCommand('jgame-manager.updateJGame', () => {
 		vscode.window.showInformationMessage('Hello World from JGame Manager!');
 	});
 
-	context.subscriptions.push(disposable);
+	let initCommand = vscode.commands.registerCommand('jgame-manager.init', async () => {
+		const syncPath = await window.showInputBox({
+			title: "The source folder of JGame to sync with",
+			placeHolder: 'The source folder of JGame to sync with',
+		});
+
+
+		const installToPath = await window.showInputBox({
+			title: "The path to install JGame to",
+			value: __dirname,
+			placeHolder: 'The path to install JGame to',
+		});
+
+		vscode.workspace.updateWorkspaceFolders(0,
+			undefined,
+			{
+				name: ".jgame-manager",
+				uri: vscode.Uri.parse("my:uri", true),
+			}
+		);
+
+		print(syncPath, installToPath);
+
+		
+	});
+
+	context.subscriptions.push(updateCommand, initCommand);
 }
 
 // This method is called when your extension is deactivated
